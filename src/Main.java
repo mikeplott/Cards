@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.stream.Collectors;
 
@@ -50,11 +52,72 @@ public class Main {
         return suits.size() == 1;
     }
 
+    public static boolean isStraightFlush(HashSet<Card> hand) {
+        HashSet<Card.Rank> ranks = new HashSet<>();
+        ArrayList<Card.Rank> theCards = new ArrayList<>();
+        if (isFlush(hand))
+        for (Card c : hand) {
+            ranks.add(c.rank);
+            theCards.add(c.rank);
+        }
+        Collections.sort(theCards);
+        //if (theCards.)
+         return true;
+        }
+
+    public static boolean isTwoKind(HashSet<Card> hand) {
+        HashSet<Card.Rank> ranks = new HashSet<>();
+        HashSet<Card.Suit> suits = new HashSet<>();
+        for (Card c : hand) {
+            ranks.add(c.rank);
+            suits.add(c.suit);
+        }
+        if (ranks.size() == 2 && suits.size() == 2) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isFourOfKind(HashSet<Card> hand) {
+        HashSet<Card.Rank> ranks = new HashSet<>();
+        for (Card c : hand) {
+            ranks.add(c.rank);
+        }
+        if (ranks.size() == 1) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isThreeOfKind(HashSet<Card> hand) {
+        HashSet<Card.Rank> ranks = new HashSet<>();
+        for (Card c : hand) {
+            ranks.add(c.rank);
+        }
+        if (ranks.size() == 2) {
+            return true;
+        }
+        return false;
+    }
+
     public static void main(String[] args) {
         HashSet<Card> deck = createDeck();
         HashSet<HashSet<Card>> hands = createHands(deck);
+        //hands = hands.stream()
+          //      .filter(Main::isFlush)
+            //    .collect(Collectors.toCollection(HashSet::new));
+        //System.out.println(hands.size());
+       // hands = hands.stream()
+         //       .filter(Main::isStraightFlush)
+           //     .collect(Collectors.toCollection(HashSet::new));
+        //hands = hands.stream()
+          //      .filter(Main::isTwoKind)
+            //    .collect(Collectors.toCollection(HashSet::new));
+        //hands = hands.stream()
+          //      .filter(Main::isFourOfKind)
+            //    .collect(Collectors.toCollection(HashSet::new));
         hands = hands.stream()
-                .filter(Main::isFlush)
+                .filter(Main::isThreeOfKind)
                 .collect(Collectors.toCollection(HashSet::new));
         System.out.println(hands.size());
     }
