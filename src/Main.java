@@ -53,27 +53,41 @@ public class Main {
     }
 
     public static boolean isStraightFlush(HashSet<Card> hand) {
-        HashSet<Card.Rank> ranks = new HashSet<>();
-        ArrayList<Card.Rank> theCards = new ArrayList<>();
+        //HashSet<Card.Rank> ranks = new HashSet<>();
+        ArrayList<Card.Rank> ranks = hand.stream().map(card -> card.rank).collect(Collectors.toCollection(ArrayList::new));
         if (isFlush(hand))
-        for (Card c : hand) {
-            ranks.add(c.rank);
-            theCards.add(c.rank);
+        for (Card.Rank rank : Card.Rank.values()) {
+            ranks.add(rank);
+            int count = Collections.frequency(ranks, rank);
         }
-        Collections.sort(theCards);
+        //if (ranks.get(3) - ranks.get(0) == 3)
+        //Collections.sort(theCards);
         //if (theCards.)
          return true;
         }
 
     public static boolean isTwoKind(HashSet<Card> hand) {
-        HashSet<Card.Rank> ranks = new HashSet<>();
-        HashSet<Card.Suit> suits = new HashSet<>();
-        for (Card c : hand) {
-            ranks.add(c.rank);
-            suits.add(c.suit);
-        }
-        if (ranks.size() == 2 && suits.size() == 2) {
-            return true;
+//        HashSet<Card.Rank> ranks = new HashSet<>();
+//        HashSet<Card.Suit> suits = new HashSet<>();
+//        for (Card c : hand) {
+//            ranks.add(c.rank);
+//            suits.add(c.suit);
+//        }
+//        if (ranks.size() == 2 && suits.size() == 2) {
+//            return true;
+//        }
+//        return false;
+        ArrayList<Card.Rank> ranks = hand.stream().map(card -> card.rank).collect(Collectors.toCollection(ArrayList::new));
+        ArrayList<Card.Suit> suits = hand.stream().map(card -> card.suit).collect(Collectors.toCollection(ArrayList::new));
+        for (Card.Rank rank : Card.Rank.values()) {
+            for (Card.Suit suit : Card.Suit.values()) {
+
+                int count = Collections.frequency(ranks, rank);
+                int count2 = Collections.frequency(suits, suit);
+                if (count == 1 && count2 == 4) {
+                    return true;
+                }
+            }
         }
         return false;
     }
@@ -90,13 +104,20 @@ public class Main {
     }
 
     public static boolean isThreeOfKind(HashSet<Card> hand) {
-        HashSet<Card.Rank> ranks = new HashSet<>();
-        for (Card c : hand) {
-            ranks.add(c.rank);
+        ArrayList<Card.Rank> ranks = hand.stream().map(card -> card.rank).collect(Collectors.toCollection(ArrayList::new));
+        for (Card.Rank rank : Card.Rank.values()) {
+            int count = Collections.frequency(ranks, rank);
+            if (count == 3) {
+                return true;
+            }
         }
-        if (ranks.size() == 2) {
-            return true;
-        }
+        //HashSet<Card.Rank> ranks = new HashSet<>();
+//        for (Card c : hand) {
+//            ranks.add(c.rank);
+//        }
+//        if (ranks.size() == 2) {
+//            return true;
+//        }
         return false;
     }
 
@@ -110,15 +131,15 @@ public class Main {
        // hands = hands.stream()
          //       .filter(Main::isStraightFlush)
            //     .collect(Collectors.toCollection(HashSet::new));
-        //hands = hands.stream()
-          //      .filter(Main::isTwoKind)
-            //    .collect(Collectors.toCollection(HashSet::new));
+        hands = hands.stream()
+                .filter(Main::isTwoKind)
+                .collect(Collectors.toCollection(HashSet::new));
         //hands = hands.stream()
           //      .filter(Main::isFourOfKind)
             //    .collect(Collectors.toCollection(HashSet::new));
-        hands = hands.stream()
-                .filter(Main::isThreeOfKind)
-                .collect(Collectors.toCollection(HashSet::new));
+//        hands = hands.stream()
+//                .filter(Main::isThreeOfKind)
+//                .collect(Collectors.toCollection(HashSet::new));
         System.out.println(hands.size());
     }
 }
